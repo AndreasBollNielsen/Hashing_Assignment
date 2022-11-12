@@ -3,27 +3,18 @@ const bcrypt = require('bcrypt');
 
 encryption = {};
 
+//generate new salt with 10 iterations
 encryption.Salt = async () => {
-    // let salt = generator.generate({
-    //     length: 10,
-    //     numbers: false,
-    //     symbols: false,
-    //     lowercase: true,
-    //     uppercase: true
-    // });
-    // return salt;
-
+    
     let salt = bcrypt.genSalt(10);
     return salt;
 }
 
+
+//encode password
 encryption.Encode = async (password) => {
 
 
-    console.log("encoding: ", password);
-
-
-    // let key = await encryption.Salt();
     let salt = await encryption.Salt();
     console.log("salt: ", salt)
     return new Promise((resolve, error) => {
@@ -31,7 +22,7 @@ encryption.Encode = async (password) => {
         bcrypt.hash(password, salt, (err, hash) => {
             console.log("hashed and salted password: ", hash);
 
-           // return resolve(hash);
+           // return hash and salt
             return resolve({
                 'Hash': hash,
                 'Salt': salt
@@ -41,6 +32,8 @@ encryption.Encode = async (password) => {
     });
 }
 
+
+//validate user by comparing the hash strings
 encryption.validatePassword = (password, hashedPassword) => {
 
      console.log("password compare: " + `password plain: ${password} hashed password: ${hashedPassword}`);

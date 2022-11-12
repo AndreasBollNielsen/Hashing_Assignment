@@ -1,10 +1,9 @@
 const mysql = require('mysql');
-// const config = require('../DBConfig.json');
 const { json } = require('express');
 
 
 
-
+//create connection to datase
 const con = mysql.createPool({
     connectionLimit: 100,
     user: 'root',
@@ -39,6 +38,8 @@ db.GetUser = async (username) => {
     );
 };
 
+
+//add user to database
 db.AddUser = async (username, password,salt) => {
 
     console.log("username: ", username);
@@ -59,6 +60,8 @@ db.AddUser = async (username, password,salt) => {
     );
 };
 
+
+//update user password and salt
 db.UpdateLogin = async (username,password,salt) =>{
 
     let query = "CALL UpdateLogin(?,?,?)";
@@ -79,5 +82,5 @@ db.UpdateLogin = async (username,password,salt) =>{
 }
 
 
-
+//export methods
 module.exports = db;
